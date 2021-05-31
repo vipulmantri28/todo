@@ -1,0 +1,23 @@
+.todo {
+    text-align: center;
+}
+
+.todo__input input, .todo__input button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.todo__input input {
+    width: 700px;
+}
+
+.todo__list {
+    margin: 50px auto;
+    width: 700px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.todo__list span {
+    margin-left: 10px;
+}
