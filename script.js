@@ -1,29 +1,3 @@
-// const todoListContainer = document.querySelector('.todo__list');
-// const input = document.querySelector('.input');
-
-// function submit() {
-//     const todoList = document.createElement('div');
-//     const todocheckbox = document.createElement('input');
-//     const todospan = document.createElement('span');
-//     todocheckbox.type = "checkbox";
-
-//     todospan.textContent = input.value;
-//     todospan.style.textTransform = "capitalize";
-//     input.value = "";
-
-//     todoListContainer.appendChild(todoList);
-//     todoList.appendChild(todocheckbox);
-//     todoList.appendChild(todospan);
-    
-//     todocheckbox.addEventListener("click", function() {
-//         if (todocheckbox.checked) {
-//             todospan.style.textDecoration = "line-through";
-//         }else {
-//             todospan.style.textDecoration = "none";
-//         }
-//     })
-// }
-
 let tasks = [];
 const todoListContainer = document.querySelector('.todo__list');
 
@@ -38,26 +12,36 @@ function submit() {
 function append() {
     todoListContainer.innerHTML = "";
     for(let i=0; i<tasks.length; i++) {
-        const todoList = document.createElement('div');
+        const todoItem = document.createElement('div');
+        const taskDiv = document.createElement('div');
         const todocheckbox = document.createElement('input');
         const todospan = document.createElement('span');
+        const iconDiv = document.createElement('div');
+        const editIcon = document.createElement('i');
+        const deleteIcon = document.createElement('i');
     
-        todoList.dataset.index = i;
+        todoItem.className = "todo__item";
+        taskDiv.className = "todo__content";
+        iconDiv.className = "todo__icons";
+        todoItem.dataset.index = i;
         todocheckbox.type = "checkbox";
         todospan.textContent = tasks[i].value;
         todospan.style.textTransform = "capitalize";
         todocheckbox.checked = tasks[i].checked;
+        editIcon.className = "far fa-edit edit";
+        deleteIcon.className = "far fa-trash-alt delete";
     
-        todoListContainer.appendChild(todoList);
-        todoList.appendChild(todocheckbox);
-        todoList.appendChild(todospan);
+        todoListContainer.appendChild(todoItem);
+        todoItem.appendChild(taskDiv);
+        taskDiv.appendChild(todocheckbox);
+        taskDiv.appendChild(todospan);
+        todoItem.appendChild(iconDiv);
+        iconDiv.appendChild(editIcon);
+        iconDiv.appendChild(deleteIcon);
         
-        if(tasks[i].checked === true) {
-            todospan.style.textDecoration = "line-through";
-            todocheckbox.checked = true;
-        }
+        if(tasks[i].checked === true) todospan.style.textDecoration = "line-through";
 
-        todoList.addEventListener("click", function done() {
+        todoItem.addEventListener("click", function done() {
             tasks[i].checked = true;
             append();
         })
