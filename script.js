@@ -1,6 +1,11 @@
 let tasks = [];
 const todoListContainer = document.querySelector('.todo__list');
 
+function press(e) {
+    if (e.key === "Enter") {
+        submit();
+    }
+}
 function submit() {
     const input = document.querySelector('.input')
     if (input.value === "") return
@@ -61,27 +66,33 @@ todoListContainer.addEventListener("click", function(e) {
 function edit(target) {
     const grandParent = target.parentElement.parentElement;
     const parent = grandParent.querySelector('.todo__content')
-    const span = parent.querySelector('.todo__span');
-    const checkbox = parent.querySelector('.todo__checkbox');
-    const input = document.createElement('input');
+    if (target.className.includes('fa-edit')) {
+        const span = parent.querySelector('.todo__span');
+        const input = document.createElement('input');
+        
+        target.classList.remove('fa-edit');
+        target.classList.add('fa-check-circle');
+        input.type = "text";
+        input.value = span.textContent;
+        input.autofocus = true;
+        
+        parent.replaceChild(input, span);
+        
+    }else {
+        const checkbox = parent.querySelector('.todo__checkbox');
+        const input = checkbox.nextSibling;
+        const span = document.createElement('span');
 
-    input.type = "text";
-    input.value = span.textContent;
-    input.autofocus = true;
-
-    parent.replaceChild(input, span);
-
-    input.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            const span = document.createElement('span');
-            span.className = "todo__span";
-            span.textContent = input.value;
-            checkbox.checked = false;
-            tasks[grandParent.dataset.index].value = input.value;
-            tasks[grandParent.dataset.index].checked = false;
-            parent.replaceChild(span, input);
-        }
-    })
+        span.className = "todo__span";
+        span.textContent = input.value;
+        checkbox.checked = false;
+        tasks[grandParent.dataset.index].value = input.value;
+        tasks[grandParent.dataset.index].checked = false;
+        
+        parent.replaceChild(span, input);
+        target.classList.add('fa-edit');
+        target.classList.remove('fa-check-circle');
+    }
 }
 
 function deleteElement(target) {
