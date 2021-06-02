@@ -87,7 +87,9 @@ function edit(target) {
 function deleteElement(target) {
     const grandParent = target.parentElement.parentElement;
     tasks.splice(grandParent.dataset.index, 1);
-    append();
+    todoListContainer.removeChild(grandParent);
+    const taskList = document.querySelectorAll('.todo__item');
+    taskList.forEach(task => task.dataset.index = tasks.keys())
     console.table(tasks);
 }
 
