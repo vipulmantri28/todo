@@ -28,8 +28,9 @@
     margin-bottom: 20px;
 }
 
-.todo__item div:first-child {
+.todo__content {
     flex-basis: 80%;
+    cursor: pointer;
 }
 
 .edit, .delete {
@@ -38,4 +39,8 @@
 
 .edit {
     margin-right: 20px;
+}
+
+.todo__span, .todo__checkbox {
+    pointer-events: none;
 }

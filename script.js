@@ -24,6 +24,7 @@ function append() {
         taskDiv.className = "todo__content";
         iconDiv.className = "todo__icons";
         todospan.className = "todo__span";
+        todocheckbox.className = "todo__checkbox";
         todoItem.dataset.index = i;
         todocheckbox.type = "checkbox";
         todospan.textContent = tasks[i].value;
@@ -50,8 +51,9 @@ todoListContainer.addEventListener("click", function(e) {
         edit(e.target);
     }else if(e.target.className.includes('delete')) {
         deleteElement(e.target);
-    }else {
-        return
+    }else if (e.target.className === "todo__content"){
+        console.log("content selected", e.target);
+        done(e.target);
     }
 })
 
@@ -82,7 +84,21 @@ function edit(target) {
 function deleteElement(target) {
     const grandParent = target.parentElement.parentElement;
     tasks.splice(grandParent.dataset.index, 1);
-    todoListContainer.removeChild(grandParent);
     append();
     console.table(tasks);
+}
+
+function done(target) {
+    const parent = target.parentElement;
+    const checkbox = target.querySelector('.todo__checkbox');
+    const span = target.querySelector('.todo__span');
+    if (tasks[parent.dataset.index].checked === false) {
+        tasks[parent.dataset.index].checked = true;
+        checkbox.checked = true;
+        span.style.textDecoration = "line-through";
+    }else {
+        tasks[parent.dataset.index].checked = false;
+        checkbox.checked = false;
+        span.style.textDecoration = "unset";
+    }
 }
