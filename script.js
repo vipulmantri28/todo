@@ -62,6 +62,7 @@ function edit(target) {
     const grandParent = target.parentElement.parentElement;
     const parent = grandParent.querySelector('.todo__content')
     const span = parent.querySelector('.todo__span');
+    const checkbox = parent.querySelector('.todo__checkbox');
     const input = document.createElement('input');
 
     input.type = "text";
@@ -75,7 +76,9 @@ function edit(target) {
             const span = document.createElement('span');
             span.className = "todo__span";
             span.textContent = input.value;
+            checkbox.checked = false;
             tasks[grandParent.dataset.index].value = input.value;
+            tasks[grandParent.dataset.index].checked = false;
             parent.replaceChild(span, input);
         }
     })
