@@ -32,6 +32,10 @@
     flex-basis: 80%;
 }
 
+.edit, .delete {
+    cursor: pointer;
+}
+
 .edit {
     margin-right: 20px;
 }

@@ -23,6 +23,7 @@ function append() {
         todoItem.className = "todo__item";
         taskDiv.className = "todo__content";
         iconDiv.className = "todo__icons";
+        todospan.className = "todo__span";
         todoItem.dataset.index = i;
         todocheckbox.type = "checkbox";
         todospan.textContent = tasks[i].value;
@@ -40,11 +41,40 @@ function append() {
         iconDiv.appendChild(deleteIcon);
         
         if(tasks[i].checked === true) todospan.style.textDecoration = "line-through";
-
-        todoItem.addEventListener("click", function done() {
-            tasks[i].checked = true;
-            append();
-        })
-
     }
 }
+
+
+todoListContainer.addEventListener("click", function(e) {
+    if (e.target.className.includes('edit')) {
+        edit(e.target);
+    }else {
+        return
+    }
+})
+
+
+function edit(target) {
+    const grandParent = target.parentElement.parentElement;
+    const parent = grandParent.querySelector('.todo__content')
+    const span = parent.querySelector('.todo__span');
+    const input = document.createElement('input');
+
+    input.type = "text";
+    input.value = span.textContent;
+    input.autofocus = true;
+
+    parent.replaceChild(input, span);
+
+    input.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            const span = document.createElement('span');
+            span.className = "todo__span";
+            span.textContent = input.value;
+            tasks[grandParent.dataset.index].value = input.value;
+            parent.replaceChild(span, input);
+            console.table(tasks);
+        }
+    })
+}
+
