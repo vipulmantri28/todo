@@ -48,6 +48,8 @@ function append() {
 todoListContainer.addEventListener("click", function(e) {
     if (e.target.className.includes('edit')) {
         edit(e.target);
+    }else if(e.target.className.includes('delete')) {
+        deleteElement(e.target);
     }else {
         return
     }
@@ -73,8 +75,14 @@ function edit(target) {
             span.textContent = input.value;
             tasks[grandParent.dataset.index].value = input.value;
             parent.replaceChild(span, input);
-            console.table(tasks);
         }
     })
 }
 
+function deleteElement(target) {
+    const grandParent = target.parentElement.parentElement;
+    tasks.splice(grandParent.dataset.index, 1);
+    todoListContainer.removeChild(grandParent);
+    append();
+    console.table(tasks);
+}
