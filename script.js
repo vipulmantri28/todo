@@ -16,6 +16,9 @@ function submit() {
 
 function append() {
     todoListContainer.innerHTML = "";
+    tasks.sort(function(a, b) {
+        return a.checked - b.checked;
+    })
     for(let i=0; i<tasks.length; i++) {
         const todoItem = document.createElement('div');
         const taskDiv = document.createElement('div');
@@ -57,7 +60,6 @@ todoListContainer.addEventListener("click", function(e) {
     }else if(e.target.className.includes('delete')) {
         deleteElement(e.target);
     }else if (e.target.className === "todo__content"){
-        console.log("content selected", e.target);
         done(e.target);
     }
 })
@@ -112,9 +114,13 @@ function done(target) {
         tasks[parent.dataset.index].checked = true;
         checkbox.checked = true;
         span.style.textDecoration = "line-through";
+        tasks.sort(function(a, b) {
+            return a.checked - b.checked;
+        })
     }else {
         tasks[parent.dataset.index].checked = false;
         checkbox.checked = false;
         span.style.textDecoration = "unset";
     }
+    append();
 }

@@ -7,20 +7,27 @@
     <title>ToDo</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <div class="todo">
         <h1 class="todo__heading">My ToDo's:</h1>
         <div class="todo__input">
-            <form action="javascript:void(0);">
-                <input type="text" class="input" placeholder="Enter Your ToDo Task" onkeypress="press(event)">
-                <button onclick="submit()">Submit</button>
+            <form novalidate action="javascript:void(0);" onsubmit="test()">
+                <input type="text" class="input" placeholder="Enter Your ToDo Task">
+                <input type="submit" value="Submit">
+                <!-- <button onclick="submit()">Submit</button> -->
             </form>
         </div>
         <div class="todo__list">
 
         </div>
     </div>
+    <script>
+        function test() {
+            submit();
+        }    
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
