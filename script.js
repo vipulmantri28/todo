@@ -1,18 +1,13 @@
 let tasks = [];
 const todoListContainer = document.querySelector('.todo__list');
-
-function press(e) {
-    if (e.key === "Enter") {
-        submit();
-    }
-}
-function submit() {
+const form = document.getElementById('todo__form');
+form.addEventListener("submit", function submit() {
     const input = document.querySelector('.input')
     if (input.value === "") return
     tasks.push({value:input.value, checked:false})
     input.value = "";
     append();
-}
+})
 
 function append() {
     todoListContainer.innerHTML = "";
