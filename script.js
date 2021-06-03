@@ -1,12 +1,25 @@
 let tasks = [];
 const todoListContainer = document.querySelector('.todo__list');
+
+function store() {
+    sessionStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+if (sessionStorage.getItem("tasks")) {
+    tasks = JSON.parse(sessionStorage.getItem("tasks"))
+    append();
+}
+
 const form = document.getElementById('todo__form');
+
 form.addEventListener("submit", function submit() {
     const input = document.querySelector('.input')
     if (input.value === "") return
-    tasks.push({value:input.value, checked:false})
+    tasks.push({value:input.value, checked:false});
+    store();
     input.value = "";
     append();
+
 })
 
 function append() {
@@ -14,38 +27,24 @@ function append() {
     tasks.sort(function(a, b) {
         return a.checked - b.checked;
     })
+    
+    let template = "";
+
     for(let i=0; i<tasks.length; i++) {
-        const todoItem = document.createElement('div');
-        const taskDiv = document.createElement('div');
-        const todocheckbox = document.createElement('input');
-        const todospan = document.createElement('span');
-        const iconDiv = document.createElement('div');
-        const editIcon = document.createElement('i');
-        const deleteIcon = document.createElement('i');
-    
-        todoItem.className = "todo__item";
-        taskDiv.className = "todo__content";
-        iconDiv.className = "todo__icons";
-        todospan.className = "todo__span";
-        todocheckbox.className = "todo__checkbox";
-        todoItem.dataset.index = i;
-        todocheckbox.type = "checkbox";
-        todospan.textContent = tasks[i].value;
-        todospan.style.textTransform = "capitalize";
-        todocheckbox.checked = tasks[i].checked;
-        editIcon.className = "far fa-edit edit";
-        deleteIcon.className = "far fa-trash-alt delete";
-    
-        todoListContainer.appendChild(todoItem);
-        todoItem.appendChild(taskDiv);
-        taskDiv.appendChild(todocheckbox);
-        taskDiv.appendChild(todospan);
-        todoItem.appendChild(iconDiv);
-        iconDiv.appendChild(editIcon);
-        iconDiv.appendChild(deleteIcon);
-        
-        if(tasks[i].checked === true) todospan.style.textDecoration = "line-through";
+        template +=`<div class="todo__item" data-index=${i}>
+                        <div class="todo__content">
+                            <input type="checkbox" class="todo__checkbox" ${tasks[i].checked ? "checked": ""}>
+                            <span class="todo__span" style=${tasks[i].checked === true ? "text-decoration:line-through" : ""} >${tasks[i].value}</span>
+                        </div>
+                        <div class="todo__icon">
+                            <i class="far fa-edit edit"></i>
+                            <i class="far fa-trash-alt delete"></i>
+                        </div>
+                    </div>`;
     }
+
+    todoListContainer.innerHTML = template;
+
 }
 
 
@@ -57,6 +56,7 @@ todoListContainer.addEventListener("click", function(e) {
     }else if (e.target.className === "todo__content"){
         done(e.target);
     }
+    store();
 })
 
 
@@ -96,9 +96,7 @@ function deleteElement(target) {
     const grandParent = target.parentElement.parentElement;
     tasks.splice(grandParent.dataset.index, 1);
     todoListContainer.removeChild(grandParent);
-    const taskList = document.querySelectorAll('.todo__item');
-    taskList.forEach(task => task.dataset.index = tasks.keys())
-    console.table(tasks);
+    append();
 }
 
 function done(target) {
